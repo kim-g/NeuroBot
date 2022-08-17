@@ -187,6 +187,27 @@ namespace NeuroBot
         }
 
         /// <summary>
+        /// Принять решение на основе входных данных и памяти
+        /// </summary>
+        /// <param name="input">Входные данные</param>
+        /// <returns></returns>
+        public BrainOutput MakeChoice(BrainInput input)
+        {
+            Neurons[0, 0].Value = input.Energy;
+            Neurons[0, 1].Value = input.Vision;
+            Neurons[0, 2].Value = input.isRelative;
+            Neurons[0, 3].Value = input.Rotation;
+            Neurons[0, 4].Value = input.Height;
+
+            Process();
+
+            BrainOutput output = new BrainOutput();
+            for (int i = 0; i < Settings.NeuronsInLayer; i++)
+                output.fields[i] = Convert.ToInt32(Neurons[Settings.NumNeuronLayers - 1, i]);
+            return output;
+        }
+
+        /// <summary>
         /// Слабая мутация. 
         /// Один из нейронов слегка изменяется, не меняя типа
         /// </summary>
