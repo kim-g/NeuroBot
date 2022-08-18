@@ -260,7 +260,7 @@ namespace NeuroBot
 
         public void Activation()
         {
-            if (Connections == 0) return;
+            //if (Connections == 0) return;
 
             switch(type)
             {

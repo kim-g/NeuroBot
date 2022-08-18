@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NeuroBot
 {
@@ -165,14 +161,23 @@ namespace NeuroBot
         /// </summary>
         public void Process()
         {
-            // активация нейронов входного и скрытых слоёв
+            for (int i = 1; i < Settings.NumNeuronLayers; i++)
+                for (int j = 0; j < Settings.NeuronsInLayer; j++)
+                    Neurons[i, j].Value = 0f;
+
+
+                    // активация нейронов входного и скрытых слоёв
+                   
             for (int i = 0; i < Settings.NumNeuronLayers - 1; i++)
                 for (int j = 0; j < Settings.NeuronsInLayer; j++)
                 {
                     Neuron neuron = Neurons[i, j];
                     neuron.Activation();
                     for (int Connection = 0; Connection < neuron.Connections; Connection++)
+                    {
+                        if (neuron.allConnections[i].Num == -1) continue;
                         Neurons[i + 1, neuron.allConnections[i].Num].Value += neuron.Value * neuron.allConnections[i].Weight;
+                    }
                 }
 
             // Активация выходных нейронов
@@ -201,9 +206,9 @@ namespace NeuroBot
 
             Process();
 
-            BrainOutput output = new BrainOutput();
+            BrainOutput output = new BrainOutput(true);
             for (int i = 0; i < Settings.NeuronsInLayer; i++)
-                output.fields[i] = Convert.ToInt32(Neurons[Settings.NumNeuronLayers - 1, i]);
+                output.fields[i] = Convert.ToInt32(Neurons[Settings.NumNeuronLayers - 1, i].Value);
             return output;
         }
 
