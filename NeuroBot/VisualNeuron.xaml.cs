@@ -86,7 +86,7 @@ namespace NeuroBot
             TypeLabel.Content = NeuronTypes[neuron.Type];
             ValueLabel.Content = neuron.Value.ToString("F2");
             BiasLabel.Content = neuron.bias.ToString("F2");
-            MemoryLabel.Content = neuron.Memory.ToString("F2");
+            MemoryLabel.Content = neuron.Type == NeuronType.memory ?  neuron.Memory.ToString("F2") : " ";
         }
 
         public void SetLine(int N, Point To)
