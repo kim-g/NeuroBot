@@ -74,6 +74,9 @@
     <Compile Include="bot.xaml.cs">
       <DependentUpon>bot.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Eyes.xaml.cs">
+      <DependentUpon>Eyes.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NeuralNet.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="VisualNeuron.xaml.cs">
@@ -83,6 +86,10 @@
       <DependentUpon>VisualNN.xaml</DependentUpon>
     </Compile>
     <Page Include="bot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Eyes.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

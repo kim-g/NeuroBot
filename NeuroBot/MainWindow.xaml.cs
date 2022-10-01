@@ -53,5 +53,16 @@ namespace NeuroBot
             BrainOutput output = NN.MakeChoice(input);
             VNN.Update();
         }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            Eyes eyes = new Eyes();
+            eyes.Show();
+        }
     }
 }

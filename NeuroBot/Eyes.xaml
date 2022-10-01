@@ -1,0 +1,17 @@
+﻿<Window x:Class="NeuroBot.Eyes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:NeuroBot"
+        mc:Ignorable="d"
+        Title="Eyes" Height="450" Width="800">
+    <Grid>
+        <local:bot x:Name="Bantic" HorizontalAlignment="Left" Height="10" Margin="157,118,0,0" VerticalAlignment="Top" Width="10"/>
+        <TextBox x:Name="Turn" Margin="195,100,522,291" Text="0" TextChanged="Turn_TextChanged"/>
+        <TextBox x:Name="ColorR" Margin="195,133,522,258" Text="255" TextChanged="Color_TextChanged"/>
+        <TextBox x:Name="ColorG" Margin="289,133,428,258" Text="255" TextChanged="Color_TextChanged"/>
+        <TextBox x:Name="ColorB" Margin="387,133,330,258" Text="255" TextChanged="Color_TextChanged"/>
+        <TextBox x:Name="TopE" Margin="195,176,522,215" Text="15" TextChanged="TopE_TextInput"/>
+    </Grid>
+</Window>
