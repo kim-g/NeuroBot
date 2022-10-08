@@ -49,5 +49,10 @@ namespace NeuroBot
             Bantic.LandHeight = Convert.ToInt32(TopE.Text);
         }
 
+        private void LeftE_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (LeftE.Text == "") return;
+            Bantic.Horizontal = Convert.ToInt32(LeftE.Text);
+        }
     }
 }

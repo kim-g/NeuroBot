@@ -13,5 +13,6 @@
         <TextBox x:Name="ColorG" Margin="289,133,428,258" Text="255" TextChanged="Color_TextChanged"/>
         <TextBox x:Name="ColorB" Margin="387,133,330,258" Text="255" TextChanged="Color_TextChanged"/>
         <TextBox x:Name="TopE" Margin="195,176,522,215" Text="15" TextChanged="TopE_TextInput"/>
+        <TextBox x:Name="LeftE" Margin="195,226,522,165" Text="15" TextChanged="LeftE_TextChanged" />
     </Grid>
 </Window>

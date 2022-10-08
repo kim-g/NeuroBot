@@ -161,6 +161,8 @@ namespace NeuroBot
             {
                 if (value > 0)
                     horizontal = value;
+
+                Margin = new Thickness(horizontal * ActualWidth, Margin.Top, 0, 0);
             }
         }
         /// <summary>
@@ -183,6 +185,7 @@ namespace NeuroBot
         public bot()
         {
             InitializeComponent();
+            brain = new NeuralNet();
         }
 
     }
