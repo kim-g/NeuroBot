@@ -7,12 +7,8 @@
         mc:Ignorable="d"
         Title="Eyes" Height="450" Width="800">
     <Grid>
-        <local:bot x:Name="Bantic" HorizontalAlignment="Left" Height="10" Margin="157,118,0,0" VerticalAlignment="Top" Width="10"/>
-        <TextBox x:Name="Turn" Margin="195,100,522,291" Text="0" TextChanged="Turn_TextChanged"/>
-        <TextBox x:Name="ColorR" Margin="195,133,522,258" Text="255" TextChanged="Color_TextChanged"/>
-        <TextBox x:Name="ColorG" Margin="289,133,428,258" Text="255" TextChanged="Color_TextChanged"/>
-        <TextBox x:Name="ColorB" Margin="387,133,330,258" Text="255" TextChanged="Color_TextChanged"/>
-        <TextBox x:Name="TopE" Margin="195,176,522,215" Text="15" TextChanged="TopE_TextInput"/>
-        <TextBox x:Name="LeftE" Margin="195,226,522,165" Text="15" TextChanged="LeftE_TextChanged" />
+        <local:Field x:Name="field"/>
+        <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
+        <Button Content="Button" HorizontalAlignment="Left" Margin="80,0,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
     </Grid>
 </Window>

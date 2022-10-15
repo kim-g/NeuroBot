@@ -24,35 +24,14 @@ namespace NeuroBot
             InitializeComponent();
         }
 
-        private void Turn_TextChanged(object sender, TextChangedEventArgs e)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            if (Turn.Text == "") return;
-
-            Bantic.Turn = Convert.ToInt32(Turn.Text);
+            field.Mir();
         }
 
-        private void Color_TextChanged(object sender, TextChangedEventArgs e)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (ColorR == null) return;
-            if (ColorG == null) return;
-            if (ColorB == null) return;
-            if (ColorR?.Text == "") return;
-            if (ColorG?.Text == "") return;
-            if (ColorB?.Text == "") return;
-
-            Bantic.ColorE = Color.FromArgb(255, Convert.ToByte(ColorR.Text), Convert.ToByte(ColorG.Text), Convert.ToByte(ColorB.Text));
-        }
-
-        private void TopE_TextInput(object sender, TextChangedEventArgs e)
-        {
-            if (TopE.Text == "") return;
-            Bantic.LandHeight = Convert.ToInt32(TopE.Text);
-        }
-
-        private void LeftE_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (LeftE.Text == "") return;
-            Bantic.Horizontal = Convert.ToInt32(LeftE.Text);
+            field.Step();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace NeuroBot
     /// </summary>
     public partial class MainWindow : Window
     {
-        NeuralNet NN = new NeuralNet();
+        NeuralNet NN = new NeuralNet(new Random());
         
         public MainWindow()
         {

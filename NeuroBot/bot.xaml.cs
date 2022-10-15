@@ -141,10 +141,11 @@ namespace NeuroBot
             }
             set
             {
-                if (value > 0)
+                if (value >= 0 && value <= 100 )
                     height = value;
 
-                Margin = new Thickness(Margin.Left, height * ActualHeight, 0, 0);
+                double H = ActualHeight == 0 ? 10 : ActualHeight;
+                Margin = new Thickness(Margin.Left, height * H, 0, 0);
             }
         }
         /// <summary>
@@ -159,10 +160,13 @@ namespace NeuroBot
             }
             set
             {
-                if (value > 0)
-                    horizontal = value;
-
-                Margin = new Thickness(horizontal * ActualWidth, Margin.Top, 0, 0);
+                horizontal = value;
+                if (value < 0)
+                    horizontal = value + 180;
+                if (value > 179)
+                    horizontal = value - 180;
+                double H = ActualWidth == 0 ? 10 : ActualWidth;
+                Margin = new Thickness(horizontal * H, Margin.Top, 0, 0);
             }
         }
         /// <summary>
@@ -177,15 +181,67 @@ namespace NeuroBot
             set
             {
                 time = value;
+                if (value < 0)
+                    time = 0;
             }
         }
 
-
-
-        public bot()
+        public int Energy
+        {
+            get
+            {
+                return energy;
+            }
+            set
+            {
+                energy = value;
+                if (value > 50)
+                    energy = 50;
+                if (value < 0)
+                    Die();
+            }
+        }
+        public NeuralNet Brain
+        {
+            get
+            {
+                return brain;
+            }
+            set
+            {
+                brain = value;
+            }
+        }
+        public bot(Random random)
         {
             InitializeComponent();
-            brain = new NeuralNet();
+            brain = new NeuralNet(random);
+            brain.Randomize(1);
+        }
+
+        /// <summary>
+        /// умерание
+        /// </summary>
+        public void Die()
+        {
+
+        }
+
+        public void Step()
+        {
+            BrainInput Parameters = new BrainInput(true);
+            Parameters.Rotation = Turn;
+            Parameters.Height = LandHeight;
+            Parameters.Energy = energy;
+            Parameters.Vision = 0;
+            Parameters.isRelative = 0;
+
+            BrainOutput Decision = Brain.MakeChoice(Parameters);
+
+            if (Decision.Rotate > 0.95)
+                Turn++;
+            if (Decision.Rotate < -0.95)
+                Turn--;
         }
 
     }
