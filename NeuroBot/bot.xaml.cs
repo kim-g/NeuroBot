@@ -297,22 +297,22 @@ namespace NeuroBot
                     x += 1;
                     break;
                 case 3:
-                    x += -1;
+                    x += +1;
                     y += 1;
                     break;
                 case 4:
                     y += 1;
                     break;
                 case 5:
-                    x += 1;
-                    y += -1;
+                    x += -1;
+                    y += +1;
                     break;
                 case 6:
                     x += -1;
                     break;
                 case 7:
                     x += -1;
-                    y += 1;
+                    y += -1;
                     break;
             }
             if (x < 0) x += 180;
