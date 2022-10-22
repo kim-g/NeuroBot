@@ -212,6 +212,16 @@ namespace NeuroBot
                 brain = value;
             }
         }
+
+        public Field Env
+        {
+            get
+            {
+                return (Field)((Grid)Parent).Parent;
+            }
+        }
+
+
         public bot(Random random)
         {
             InitializeComponent();
@@ -224,7 +234,7 @@ namespace NeuroBot
         /// </summary>
         public void Die()
         {
-
+            Env.Delete(this);
         }
 
         public void Step()
@@ -233,15 +243,84 @@ namespace NeuroBot
             Parameters.Rotation = Turn;
             Parameters.Height = LandHeight;
             Parameters.Energy = energy;
-            Parameters.Vision = 0;
+            Parameters.Vision = Occupied() ? 1 : 0;
             Parameters.isRelative = 0;
 
             BrainOutput Decision = Brain.MakeChoice(Parameters);
 
+            Energy -= 1;
             if (Decision.Rotate > 0.95)
+            {
                 Turn++;
+                Energy -= 1;
+            }
             if (Decision.Rotate < -0.95)
+            {
                 Turn--;
+                Energy -= 1;
+            }
+            if (Decision.Move > 0.95)
+            {
+                Point p = Direction();
+                Env.Move(this, (int)p.X, (int)p.Y);
+                Energy -= 2;
+            }
+            if (Decision.Photosynthesis > 0.95)
+            {
+                Energy += 1;
+            }
+
+        }
+
+        private bool Occupied()
+        {
+            Point p = Direction();
+            return Env.Occupyed((int)p.X, (int)p.Y);
+        }
+
+
+        private Point Direction()
+        {
+            int x = Horizontal;
+            int y = LandHeight;
+
+            switch (turn)
+            {
+                case 0:
+                    y += -1;
+                    break;
+                case 1:
+                    x += 1;
+                    y += -1;
+                    break;
+                case 2:
+                    x += 1;
+                    break;
+                case 3:
+                    x += -1;
+                    y += 1;
+                    break;
+                case 4:
+                    y += 1;
+                    break;
+                case 5:
+                    x += 1;
+                    y += -1;
+                    break;
+                case 6:
+                    x += -1;
+                    break;
+                case 7:
+                    x += -1;
+                    y += 1;
+                    break;
+            }
+            if (x < 0) x += 180;
+            if (x > 179) x -= 180;
+
+            if (y < 0) y = 0;
+            if (y > 100) y = 100;
+            return new Point(x, y);
         }
 
     }

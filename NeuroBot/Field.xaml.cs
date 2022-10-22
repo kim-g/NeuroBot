@@ -23,7 +23,7 @@ namespace NeuroBot
         private List <bot> listB = new List<bot>();
         private bot[,] FieldArray = new bot[180, 101];
 
-        
+        private List<bot> ToDelete = new List<bot>();
         public Field()
         {
             InitializeComponent();
@@ -43,10 +43,12 @@ namespace NeuroBot
 
                 Grid1.Children.Add(B);
                 listB.Add(B);
-                FieldArray[B.Horizontal, B.LandHeight] = B;
+                
 
                 B.Horizontal = random.Next(0, 179);
                 B.LandHeight = random.Next(0, 100);
+
+                FieldArray[B.Horizontal, B.LandHeight] = B;
 
                 B.HorizontalAlignment = HorizontalAlignment.Left;
                 B.VerticalAlignment = VerticalAlignment.Top;
@@ -70,8 +72,48 @@ namespace NeuroBot
         {
             foreach (bot B in listB)
                 B.Step();
+            DeleteAll();
         }
 
+        /// <summary>
+        /// клетка занята
+        /// 
+        /// 
+        /// </summary>
+        /// <param name="x">значение по горизонтали</param>
+        /// <param name="y">значение по вертикали</param>
+        /// <returns></returns>
+        public bool Occupyed(int x, int y)
+        {
+            return FieldArray[x, y] != null;
+        }
+
+        public void Move(bot Bot, int new_x, int new_y)
+        {
+            if (Occupyed(new_x, new_y)) return;
+
+            
+            FieldArray[Bot.Horizontal, Bot.LandHeight] = null;
+            Bot.Horizontal = new_x;
+            Bot.LandHeight = new_y;
+            FieldArray[Bot.Horizontal, Bot.LandHeight] = Bot;
+        }
+
+        public void Delete(bot Bot)
+        {
+            ToDelete.Add(Bot);
+        }
+
+        public void DeleteAll()
+        {
+            foreach (bot Bot in ToDelete)
+            {
+                listB.Remove(Bot);
+                FieldArray[Bot.Horizontal, Bot.LandHeight] = null;
+                Grid1.Children.Remove(Bot);
+            }
+            ToDelete.Clear();
+        }
     }
     
 }
