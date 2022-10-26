@@ -29,6 +29,13 @@ namespace NeuroBot
         private int horizontal;
         private int time;
         private NeuralNet brain;
+        private Random rnd;
+
+        private const int FullMutation = 5;
+        private const int HalfMutation = 10;
+        private const int WeakMutation = 30;
+
+    
 
         /// <summary>
         /// цвет заливки 
@@ -225,6 +232,7 @@ namespace NeuroBot
         public bot(Random random)
         {
             InitializeComponent();
+            rnd = random;
             brain = new NeuralNet(random);
             brain.Randomize(1);
         }
@@ -268,6 +276,39 @@ namespace NeuroBot
             if (Decision.Photosynthesis > 0.95)
             {
                 Energy += 1;
+            }
+
+            Time--;
+        }
+
+        private void CellDivision()
+        {
+            int randomvalue = rnd.Next(0, 99);
+            Point p = Direction();
+            if (Env.Occupyed((int)p.X, (int)p.Y)) return;
+            if (Energy < 6) return;
+            if (Time > 0) return;
+
+            bot NewBot = new bot(rnd);
+            NewBot.Brain = new NeuralNet(Brain);
+
+            
+
+
+            if (randomvalue < FullMutation)
+            {
+                NewBot.Brain.Randomize();
+                return;
+            }
+            if (randomvalue < FullMutation + HalfMutation)
+            {
+                NewBot.Brain.MutateHarsh();
+                return;
+            }
+            if (randomvalue < FullMutation + HalfMutation + WeakMutation)
+            {
+                NewBot.Brain.Mutate();
+                return;
             }
 
         }

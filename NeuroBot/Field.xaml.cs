@@ -99,6 +99,8 @@ namespace NeuroBot
             FieldArray[Bot.Horizontal, Bot.LandHeight] = Bot;
         }
 
+
+
         public void Delete(bot Bot)
         {
             ToDelete.Add(Bot);
