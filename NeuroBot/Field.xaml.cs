@@ -24,6 +24,7 @@ namespace NeuroBot
         private bot[,] FieldArray = new bot[180, 101];
 
         private List<bot> ToDelete = new List<bot>();
+        private List<bot> ToAdd = new List<bot>();
         public Field()
         {
             InitializeComponent();
@@ -41,9 +42,7 @@ namespace NeuroBot
             {
                 bot B = new bot(random);
 
-                Grid1.Children.Add(B);
-                listB.Add(B);
-                
+                Add(B);
 
                 B.Horizontal = random.Next(0, 179);
                 B.LandHeight = random.Next(0, 100);
@@ -66,6 +65,7 @@ namespace NeuroBot
 
 
             }
+            AddAll();
         }
 
         public void Step()
@@ -73,6 +73,7 @@ namespace NeuroBot
             foreach (bot B in listB)
                 B.Step();
             DeleteAll();
+            AddAll();
         }
 
         /// <summary>
@@ -99,7 +100,21 @@ namespace NeuroBot
             FieldArray[Bot.Horizontal, Bot.LandHeight] = Bot;
         }
 
+        public void Add(bot Bot)
+        {
+            ToAdd.Add(Bot);
+        }
 
+        public void AddAll()
+        {
+            foreach (bot Bot in ToAdd)
+            {
+                Grid1.Children.Add(Bot);
+                listB.Add(Bot);
+                FieldArray[Bot.Horizontal, Bot.LandHeight] = Bot;
+            }
+            ToAdd.Clear();
+        }
 
         public void Delete(bot Bot)
         {
@@ -115,7 +130,14 @@ namespace NeuroBot
                 Grid1.Children.Remove(Bot);
             }
             ToDelete.Clear();
+        } 
+        
+        public bot Get(Point p)
+        {
+            return FieldArray[(int)p.X, (int)p.Y];
         }
     }
+
+   
     
 }

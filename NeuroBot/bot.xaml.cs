@@ -152,7 +152,7 @@ namespace NeuroBot
                     height = value;
 
                 double H = ActualHeight == 0 ? 10 : ActualHeight;
-                Margin = new Thickness(Margin.Left, height * H, 0, 0);
+                Margin = new Thickness(Margin.Left, height * 10, 0, 0);
             }
         }
         /// <summary>
@@ -173,7 +173,7 @@ namespace NeuroBot
                 if (value > 179)
                     horizontal = value - 180;
                 double H = ActualWidth == 0 ? 10 : ActualWidth;
-                Margin = new Thickness(horizontal * H, Margin.Top, 0, 0);
+                Margin = new Thickness(horizontal * 10, Margin.Top, 0, 0);
             }
         }
         /// <summary>
@@ -251,12 +251,26 @@ namespace NeuroBot
             Parameters.Rotation = Turn;
             Parameters.Height = LandHeight;
             Parameters.Energy = energy;
-            Parameters.Vision = Occupied() ? 1 : 0;
-            Parameters.isRelative = 0;
+            if (Occupied())
+            {
+                Parameters.Vision = 1;
+                bot Seen = Env.Get(Direction());
+                Parameters.isRelative = ColorZ == Seen.ColorZ ? 1 : 0;
+            }
+            else 
+            {
+                Parameters.Vision = 0;
+                Parameters.isRelative = 0;
+            }
 
             BrainOutput Decision = Brain.MakeChoice(Parameters);
 
             Energy -= 1;
+            if (Decision.Attack > 0.95)
+            {
+                Energy -= 2;
+                Eat();
+            }
             if (Decision.Rotate > 0.95)
             {
                 Turn++;
@@ -275,8 +289,13 @@ namespace NeuroBot
             }
             if (Decision.Photosynthesis > 0.95)
             {
-                Energy += 1;
+                Energy += 3;
             }
+            if (Decision.Divide > 0.95)
+            {
+                CellDivision();
+            }
+
 
             Time--;
         }
@@ -285,14 +304,29 @@ namespace NeuroBot
         {
             int randomvalue = rnd.Next(0, 99);
             Point p = Direction();
-            if (Env.Occupyed((int)p.X, (int)p.Y)) return;
+            if (Env.Occupyed(Convert.ToInt32(p.X), Convert.ToInt32(p.Y))) return;
             if (Energy < 6) return;
             if (Time > 0) return;
 
             bot NewBot = new bot(rnd);
             NewBot.Brain = new NeuralNet(Brain);
 
-            
+            Env.Add(NewBot);
+            NewBot.Horizontal = Convert.ToInt32(p.X);
+            NewBot.LandHeight = Convert.ToInt32(p.Y);
+
+            Energy -= 2;
+            Energy /= 2;
+            NewBot.Energy = Energy;
+            NewBot.HorizontalAlignment = HorizontalAlignment.Left;
+            NewBot.VerticalAlignment = VerticalAlignment.Top;
+
+            NewBot.ColorE = ColorE;
+            NewBot.ColorO = ColorO;
+            NewBot.ColorZ = ColorZ;
+
+            NewBot.Time = 10;
+            Time = 10;
 
 
             if (randomvalue < FullMutation)
@@ -313,6 +347,16 @@ namespace NeuroBot
 
         }
 
+        private void Eat()
+        {
+            Point p = Direction();
+            if (Env.Occupyed(Convert.ToInt32(p.X), Convert.ToInt32(p.Y)) == false) return;
+
+            bot Prey = Env.Get(p);
+            Energy += Prey.Energy;
+            Prey.Energy = 0;
+        }
+
         private bool Occupied()
         {
             Point p = Direction();
@@ -325,7 +369,7 @@ namespace NeuroBot
             int x = Horizontal;
             int y = LandHeight;
 
-            switch (turn)
+            switch (Turn)
             {
                 case 0:
                     y += -1;
