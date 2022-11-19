@@ -65,17 +65,17 @@ namespace NeuroBot
         /// <summary>
         /// Движение бота
         /// </summary>
-        public int Move { get => fields[1]; set => fields[1] = value; }
+        public int Move { get => fields[3]; set => fields[3] = value; }
 
         /// <summary>
         /// Бот будет фотосинтезировать
         /// </summary>
-        public int Photosynthesis { get => fields[2]; set => fields[2] = value; }
+        public int Photosynthesis { get => fields[1]; set => fields[1] = value; }
 
         /// <summary>
         /// Бот будет делиться
         /// </summary>
-        public int Divide { get => fields[3]; set => fields[3] = value; }
+        public int Divide { get => fields[4]; set => fields[4] = value; }
 
         /// <summary>
         /// Бот будет атаковать бота в поле видимости

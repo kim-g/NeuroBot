@@ -248,9 +248,9 @@ namespace NeuroBot
         public void Step()
         {
             BrainInput Parameters = new BrainInput(true);
-            Parameters.Rotation = Turn;
-            Parameters.Height = LandHeight;
-            Parameters.Energy = energy;
+            Parameters.Rotation = Turn / 7;
+            Parameters.Height = LandHeight / 100;
+            Parameters.Energy = energy / 50;
             if (Occupied())
             {
                 Parameters.Vision = 1;
@@ -265,39 +265,60 @@ namespace NeuroBot
 
             BrainOutput Decision = Brain.MakeChoice(Parameters);
 
-            Energy -= 1;
-            if (Decision.Attack > 0.95)
+            Energy -= 1; 
+            
+            if (Decision.Photosynthesis > 0.95)
             {
-                Energy -= 2;
-                Eat();
+                Energy += 20;
+                Time--;
             }
             if (Decision.Rotate > 0.95)
             {
                 Turn++;
                 Energy -= 1;
+                Time--;
+                return;
             }
             if (Decision.Rotate < -0.95)
             {
                 Turn--;
                 Energy -= 1;
+                Time--;
+                return;
             }
+            
+           
+            if (Decision.Divide > 0.95)
+            {
+                CellDivision();
+                Time--;
+                return;
+            }
+
             if (Decision.Move > 0.95)
             {
                 Point p = Direction();
                 Env.Move(this, (int)p.X, (int)p.Y);
                 Energy -= 2;
-            }
-            if (Decision.Photosynthesis > 0.95)
-            {
-                Energy += 3;
-            }
-            if (Decision.Divide > 0.95)
-            {
-                CellDivision();
+                Time--;
+                return;
             }
 
+            
 
-            Time--;
+            if (Decision.Attack > 0.95)
+            {
+                Energy -= 4;
+                Eat();
+                Time--;
+                return;
+
+            }
+            
+            
+
+
+            
         }
 
         private void CellDivision()
@@ -305,8 +326,9 @@ namespace NeuroBot
             int randomvalue = rnd.Next(0, 99);
             Point p = Direction();
             if (Env.Occupyed(Convert.ToInt32(p.X), Convert.ToInt32(p.Y))) return;
-            if (Energy < 6) return;
+            if (Energy < 3) return;
             if (Time > 0) return;
+
 
             bot NewBot = new bot(rnd);
             NewBot.Brain = new NeuralNet(Brain);
@@ -318,6 +340,7 @@ namespace NeuroBot
             Energy -= 2;
             Energy /= 2;
             NewBot.Energy = Energy;
+            NewBot.Turn = rnd.Next(0, 7);
             NewBot.HorizontalAlignment = HorizontalAlignment.Left;
             NewBot.VerticalAlignment = VerticalAlignment.Top;
 
@@ -408,5 +431,10 @@ namespace NeuroBot
             return new Point(x, y);
         }
 
+        private void Grid_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Brain NewBrain = new Brain(brain);
+            NewBrain.ShowDialog();
+        }
     }
 }

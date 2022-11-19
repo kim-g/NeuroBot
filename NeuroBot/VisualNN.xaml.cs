@@ -21,6 +21,8 @@ namespace NeuroBot
                 for (int i = 0; i < Settings.NumNeuronLayers; i++)
                     for (int j = 0; j < Settings.NeuronsInLayer; j++)
                         NeuronElements[i, j].NeuronForVisualization = neurons.Neurons[i, j];
+
+                Update();
             }
         }
         

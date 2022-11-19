@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:NeuroBot"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" Width="10" Height="10">
-    <Grid>
+    <Grid MouseUp="Grid_MouseUp">
         <Rectangle x:Name="Rect" Fill="#FFFFA2A2" Stroke="#FFF5F507"/>
         <Rectangle x:Name="eye" Fill="Black" Margin="6,1,2,7"/>
         <Rectangle x:Name="eye2" Fill="Black" Margin="2,1,6,7"/>
