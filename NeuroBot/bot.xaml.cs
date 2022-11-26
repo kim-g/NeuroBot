@@ -269,7 +269,7 @@ namespace NeuroBot
             
             if (Decision.Photosynthesis > 0.95)
             {
-                Energy += 20;
+                Energy += 8;
                 Time--;
             }
             if (Decision.Rotate > 0.95)
@@ -324,8 +324,17 @@ namespace NeuroBot
         private void CellDivision()
         {
             int randomvalue = rnd.Next(0, 99);
-            Point p = Direction();
-            if (Env.Occupyed(Convert.ToInt32(p.X), Convert.ToInt32(p.Y))) return;
+            List<Point> points = new List<Point>();
+            for (int i = 0; i < 8; i++)
+            {
+                Point point = Direction(i);
+                if (!Env.Occupyed(Convert.ToInt32(point.X), Convert.ToInt32(point.Y)))
+                    points.Add(point);
+            }
+
+            if (points.Count == 0) return;
+            int Dir = rnd.Next(0, points.Count - 1);
+
             if (Energy < 3) return;
             if (Time > 0) return;
 
@@ -334,8 +343,8 @@ namespace NeuroBot
             NewBot.Brain = new NeuralNet(Brain);
 
             Env.Add(NewBot);
-            NewBot.Horizontal = Convert.ToInt32(p.X);
-            NewBot.LandHeight = Convert.ToInt32(p.Y);
+            NewBot.Horizontal = Convert.ToInt32(points[Dir].X);
+            NewBot.LandHeight = Convert.ToInt32(points[Dir].Y);
 
             Energy -= 2;
             Energy /= 2;
@@ -387,12 +396,14 @@ namespace NeuroBot
         }
 
 
-        private Point Direction()
+        private Point Direction(int Dir = -1)
         {
             int x = Horizontal;
             int y = LandHeight;
 
-            switch (Turn)
+            int Direct = Dir == -1 ? Turn : Dir;
+
+            switch (Direct)
             {
                 case 0:
                     y += -1;
