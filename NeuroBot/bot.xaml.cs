@@ -30,10 +30,34 @@ namespace NeuroBot
         private int time;
         private NeuralNet brain;
         private Random rnd;
+        private int old = 0;
 
         private const int FullMutation = 5;
         private const int HalfMutation = 10;
         private const int WeakMutation = 30;
+
+        /// <summary>
+        /// Возраст
+        /// </summary>
+        public int Old
+        {
+            get
+            {
+                return old;
+            }
+            set
+            {
+                old = value;
+                int randomvalue = rnd.Next(0, 999);
+                
+                if (old < 5) if (randomvalue < 1) Die ();
+                if ((old >= 5) && (old <10)) if (randomvalue < 50) Die();
+                if ((old >= 10) && (old < 15)) if (randomvalue < 100) Die();
+                if (old >= 15) if (randomvalue < 200) Die();
+
+            }
+
+        }
 
     
 
@@ -247,6 +271,7 @@ namespace NeuroBot
 
         public void Step()
         {
+            Old++;
             BrainInput Parameters = new BrainInput(true);
             Parameters.Rotation = Turn / 7;
             Parameters.Height = LandHeight / 100;
@@ -269,7 +294,7 @@ namespace NeuroBot
             
             if (Decision.Photosynthesis > 0.95)
             {
-                Energy += 8;
+                Energy += 4;
                 Time--;
             }
             if (Decision.Rotate > 0.95)
@@ -320,7 +345,9 @@ namespace NeuroBot
 
             
         }
-
+        /// <summary>
+        /// размножение
+        /// </summary>
         private void CellDivision()
         {
             int randomvalue = rnd.Next(0, 99);
@@ -335,10 +362,10 @@ namespace NeuroBot
             if (points.Count == 0) return;
             int Dir = rnd.Next(0, points.Count - 1);
 
-            if (Energy < 3) return;
+            if (Energy < 6) return;
             if (Time > 0) return;
 
-
+            Old = 0;
             bot NewBot = new bot(rnd);
             NewBot.Brain = new NeuralNet(Brain);
 
@@ -346,7 +373,7 @@ namespace NeuroBot
             NewBot.Horizontal = Convert.ToInt32(points[Dir].X);
             NewBot.LandHeight = Convert.ToInt32(points[Dir].Y);
 
-            Energy -= 2;
+            Energy -= 4;
             Energy /= 2;
             NewBot.Energy = Energy;
             NewBot.Turn = rnd.Next(0, 7);
