@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace NeuroBot
 
         private List<bot> ToDelete = new List<bot>();
         private List<bot> ToAdd = new List<bot>();
+        private int StepN = 0;
         public Field()
         {
             InitializeComponent();
@@ -32,6 +34,8 @@ namespace NeuroBot
 
         public void Mir()
         {
+
+            StepN = 0;
             Grid1.Children.Clear();
             listB.Clear();
             FieldArray = new bot[180, 101];
@@ -70,10 +74,24 @@ namespace NeuroBot
 
         public void Step()
         {
+            StepN++;
             foreach (bot B in listB)
                 B.Step();
             DeleteAll();
             AddAll();
+
+
+            RenderTargetBitmap rtb = new RenderTargetBitmap((int)this.ActualWidth, 
+                (int)this.ActualHeight, 96, 96, PixelFormats.Pbgra32);
+            rtb.Render(this);
+
+            JpegBitmapEncoder jpg = new JpegBitmapEncoder();
+            jpg.Frames.Add(BitmapFrame.Create(rtb));
+
+            using (Stream stm = File.Create(@"c:\Frames\Frame" + StepN.ToString() + ".jpg"))
+            {
+                jpg.Save(stm);
+            }
         }
 
         /// <summary>

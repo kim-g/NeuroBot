@@ -302,14 +302,14 @@ namespace NeuroBot
                 Turn++;
                 Energy -= 1;
                 Time--;
-                return;
+                
             }
             if (Decision.Rotate < -0.95)
             {
                 Turn--;
                 Energy -= 1;
                 Time--;
-                return;
+                
             }
             
            
@@ -317,7 +317,7 @@ namespace NeuroBot
             {
                 CellDivision();
                 Time--;
-                return;
+                
             }
 
             if (Decision.Move > 0.95)
@@ -326,7 +326,7 @@ namespace NeuroBot
                 Env.Move(this, (int)p.X, (int)p.Y);
                 Energy -= 2;
                 Time--;
-                return;
+                
             }
 
             
@@ -336,7 +336,7 @@ namespace NeuroBot
                 Energy -= 4;
                 Eat();
                 Time--;
-                return;
+                
 
             }
             
@@ -384,18 +384,20 @@ namespace NeuroBot
             NewBot.ColorO = ColorO;
             NewBot.ColorZ = ColorZ;
 
-            NewBot.Time = 10;
-            Time = 10;
+            NewBot.Time = rnd.Next (8,12);
+            Time = rnd.Next (8,12);
 
 
             if (randomvalue < FullMutation)
             {
                 NewBot.Brain.Randomize();
+                NewBot.ColorZ = Color.FromRgb(Convert.ToByte(rnd.Next(0, 255)), Convert.ToByte(rnd.Next(0, 255)), Convert.ToByte(rnd.Next(0, 255)));
                 return;
             }
             if (randomvalue < FullMutation + HalfMutation)
             {
                 NewBot.Brain.MutateHarsh();
+                NewBot.ColorZ = Color.FromRgb(Convert.ToByte(rnd.Next(0, 255)), Convert.ToByte(rnd.Next(0, 255)), Convert.ToByte(rnd.Next(0, 255)));
                 return;
             }
             if (randomvalue < FullMutation + HalfMutation + WeakMutation)
