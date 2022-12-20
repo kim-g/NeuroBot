@@ -294,7 +294,7 @@ namespace NeuroBot
             
             if (Decision.Photosynthesis > 0.95)
             {
-                Energy += 4;
+                Energy += (Field.W - LandHeight) * 4 / Field.W;
                 Time--;
             }
             if (Decision.Rotate > 0.95)
