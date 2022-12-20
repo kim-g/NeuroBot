@@ -172,7 +172,7 @@ namespace NeuroBot
             }
             set
             {
-                if (value >= 0 && value <= 100 )
+                if (value >= 0 && value <= Field.W - 1 )
                     height = value;
 
                 double H = ActualHeight == 0 ? 10 : ActualHeight;
@@ -193,9 +193,9 @@ namespace NeuroBot
             {
                 horizontal = value;
                 if (value < 0)
-                    horizontal = value + 180;
+                    horizontal = value + Field.H - 1;
                 if (value > 179)
-                    horizontal = value - 180;
+                    horizontal = value - Field.H + 1;
                 double H = ActualWidth == 0 ? 10 : ActualWidth;
                 Margin = new Thickness(horizontal * 10, Margin.Top, 0, 0);
             }
@@ -274,7 +274,7 @@ namespace NeuroBot
             Old++;
             BrainInput Parameters = new BrainInput(true);
             Parameters.Rotation = Turn / 7;
-            Parameters.Height = LandHeight / 100;
+            Parameters.Height = LandHeight / (Field.W - 1);
             Parameters.Energy = energy / 50;
             if (Occupied())
             {
@@ -463,11 +463,11 @@ namespace NeuroBot
                     y += -1;
                     break;
             }
-            if (x < 0) x += 180;
-            if (x > 179) x -= 180;
+            if (x < 0) x += Field.H;
+            if (x > Field.H-1) x -= Field.H-1;
 
             if (y < 0) y = 0;
-            if (y > 100) y = 100;
+            if (y > Field.W-1) y = Field.W-1;
             return new Point(x, y);
         }
 

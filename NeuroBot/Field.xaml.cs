@@ -21,8 +21,11 @@ namespace NeuroBot
     /// </summary>
     public partial class Field : UserControl
     {
+        public const int H = 90;
+        public const int W = 50;
+        
         private List <bot> listB = new List<bot>();
-        private bot[,] FieldArray = new bot[180, 101];
+        private bot[,] FieldArray = new bot[H, W];
 
         private List<bot> ToDelete = new List<bot>();
         private List<bot> ToAdd = new List<bot>();
@@ -38,7 +41,7 @@ namespace NeuroBot
             StepN = 0;
             Grid1.Children.Clear();
             listB.Clear();
-            FieldArray = new bot[180, 101];
+            FieldArray = new bot[H, W];
 
             Random random = new Random();
 
@@ -48,8 +51,8 @@ namespace NeuroBot
 
                 Add(B);
 
-                B.Horizontal = random.Next(0, 179);
-                B.LandHeight = random.Next(0, 100);
+                B.Horizontal = random.Next(0, H-1);
+                B.LandHeight = random.Next(0, W-1);
 
                 FieldArray[B.Horizontal, B.LandHeight] = B;
 
@@ -148,6 +151,8 @@ namespace NeuroBot
                 Grid1.Children.Remove(Bot);
             }
             ToDelete.Clear();
+
+            GC.Collect();
         } 
         
         public bot Get(Point p)
