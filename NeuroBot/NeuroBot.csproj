@@ -29,6 +29,7 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -70,6 +71,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="bot.xaml.cs">
+      <DependentUpon>bot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Brain.xaml.cs">
+      <DependentUpon>Brain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Eyes.xaml.cs">
+      <DependentUpon>Eyes.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Field.xaml.cs">
+      <DependentUpon>Field.xaml</DependentUpon>
+    </Compile>
     <Compile Include="NeuralNet.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="VisualNeuron.xaml.cs">
@@ -78,6 +91,22 @@
     <Compile Include="VisualNN.xaml.cs">
       <DependentUpon>VisualNN.xaml</DependentUpon>
     </Compile>
+    <Page Include="bot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Brain.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Eyes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Field.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

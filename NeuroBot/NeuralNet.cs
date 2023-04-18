@@ -65,17 +65,17 @@ namespace NeuroBot
         /// <summary>
         /// Движение бота
         /// </summary>
-        public int Move { get => fields[1]; set => fields[1] = value; }
+        public int Move { get => fields[3]; set => fields[3] = value; }
 
         /// <summary>
         /// Бот будет фотосинтезировать
         /// </summary>
-        public int Photosynthesis { get => fields[2]; set => fields[2] = value; }
+        public int Photosynthesis { get => fields[1]; set => fields[1] = value; }
 
         /// <summary>
         /// Бот будет делиться
         /// </summary>
-        public int Divide { get => fields[3]; set => fields[3] = value; }
+        public int Divide { get => fields[4]; set => fields[4] = value; }
 
         /// <summary>
         /// Бот будет атаковать бота в поле видимости
@@ -96,7 +96,7 @@ namespace NeuroBot
         /// <summary>
         /// Генератор случайных чисел
         /// </summary>
-        protected Random random = new Random();
+        protected Random random;
         
         /// <summary>
         /// Массив нейронов
@@ -120,8 +120,9 @@ namespace NeuroBot
         /// <summary>
         /// Создание новой нейронной сети
         /// </summary>
-        public NeuralNet()
+        public NeuralNet(Random randomV)
         {
+            random = randomV;
             for (int i = 0; i < Settings.NumNeuronLayers; i++)
                 for (int j = 0; j < Settings.NeuronsInLayer; j++)
                     Neurons[i, j] = new Neuron(random);
@@ -142,6 +143,7 @@ namespace NeuroBot
         /// <param name="Parent">Родитель</param>
         public NeuralNet(NeuralNet Parent)
         {
+            random = Parent.random;
             for (int i = 0; i < Settings.NumNeuronLayers; i++)
                 for (int j = 0; j < Settings.NeuronsInLayer; j++)
                     Neurons[i, j] = Parent.Neurons[i, j].Copy();
